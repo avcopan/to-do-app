@@ -44,6 +44,7 @@ todoRouter.put("/:todoId", (req, res) => {
 todoRouter.delete("/:todoId", (req, res) => {
   const todoId = req.params.todoId;
 
+  console.log("Received DELETE request for", todoId);
   todoQuery
     .removeTodo(todoId)
     .then(() => res.sendStatus(204))
@@ -51,6 +52,6 @@ todoRouter.delete("/:todoId", (req, res) => {
       console.error(error);
       res.sendStatus(500);
     });
-})
+});
 
 module.exports = todoRouter;

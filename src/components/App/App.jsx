@@ -1,70 +1,105 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "./App.css";
 
 function App() {
-  const [todoList, setTodoList] = useState([]);
-  const [checked, setChecked] = useState(new Set());
+  const [todos, setTodos] = useState([]);
+  const [checkedTodos, setCheckedTodos] = useState(new Set());
   const [taskInput, setTaskInput] = useState("");
 
   useEffect(() => {
-    getTodos().then(setTodoList);
+    getTodos().then(setTodos);
   }, []);
-  console.log(todoList);
+  console.log(todos);
 
-  const getTodos = () => {
-    return axios
-      .get("/todo")
-      .then((res) => res.data)
-      .catch((error) => console.error(error));
+  const getTodos = async () => {
+    try {
+      const res = await axios.get("/todo");
+      return res.data;
+    } catch (error) {
+      return console.error(error);
+    }
   };
 
-  const addTodo = (event) => {
+  const addTodo = async (event) => {
     event.preventDefault();
     const newTodo = { task: taskInput };
     setTaskInput("");
 
-    return axios
-      .post("/todo", newTodo)
-      .then(() => getTodos().then(setTodoList))
-      .catch((error) => console.error(error));
+    try {
+      await axios.post("/todo", newTodo);
+      await getTodos().then(setTodos);
+    } catch (error) {
+      return console.error(error);
+    }
   };
 
   const updateTaskInput = (event) => {
     setTaskInput(event.target.value);
   };
 
-  const updateChecked = (event, todoId) => {
+  const updateChecked = (event, todo) => {
     if (event.target.checked) {
-      checked.add(todoId)
-      setChecked(checked);
-      console.log("Adding item to checked!")
-      console.log(checked);
+      checkedTodos.add(todo);
+      setCheckedTodos(checkedTodos);
+      console.log("Adding item to checked!");
+      console.log(checkedTodos);
     } else {
-      checked.delete(todoId)
-      setChecked(checked);
-      console.log("Removing item from checked!")
-      console.log(checked);
+      checkedTodos.delete(todo);
+      setCheckedTodos(checkedTodos);
+      console.log("Removing item from checked!");
+      console.log(checkedTodos);
     }
-  }
+  };
+
+  const markCheckedComplete = () => {
+    console.log("Marking checked!");
+  };
+
+  const deleteChecked = async () => {
+    const sendDeleteRequestss = async () => {
+      try {
+        for await (const todo of checkedTodos) {
+          axios
+            .delete(`/todo/${todo.id}`)
+            .catch((error) => console.error(error));
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
+
+    try {
+      return sendDeleteRequestss()
+        .then(getTodos)
+        .then(setTodos);
+    } catch (error) {
+      return console.error(error);
+    }
+  };
 
   return (
     <div>
       <h1>To Do App</h1>
       <h2>To Do List:</h2>
       <div>
-        {todoList.map((todo) => {
+        {todos.map((todo) => {
           return (
             <div key={"parent" + todo.id}>
               <input
                 type="checkbox"
                 key={todo.id}
-                onClick={(e) => updateChecked(e, todo.id)}
+                onClick={(e) => updateChecked(e, todo)}
               />
-              {todo.task} ({todo.completed ? "Done" : "Not done"})
+              <span className={todo.completed ? "completedTask" : "task"}>
+                {todo.task}
+              </span>
             </div>
           );
         })}
       </div>
+      <button onClick={markCheckedComplete}>Mark Complete</button>
+      <button onClick={deleteChecked}>Delete</button>
       <h2>Add To Do Item:</h2>
       <form onSubmit={addTodo}>
         <input
