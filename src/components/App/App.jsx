@@ -3,6 +3,7 @@ import axios from "axios";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
+  const [checked, setChecked] = useState(new Set());
   const [taskInput, setTaskInput] = useState("");
 
   useEffect(() => {
@@ -28,6 +29,24 @@ function App() {
       .catch((error) => console.error(error));
   };
 
+  const updateTaskInput = (event) => {
+    setTaskInput(event.target.value);
+  };
+
+  const updateChecked = (event, todoId) => {
+    if (event.target.checked) {
+      checked.add(todoId)
+      setChecked(checked);
+      console.log("Adding item to checked!")
+      console.log(checked);
+    } else {
+      checked.delete(todoId)
+      setChecked(checked);
+      console.log("Removing item from checked!")
+      console.log(checked);
+    }
+  }
+
   return (
     <div>
       <h1>To Do App</h1>
@@ -35,7 +54,12 @@ function App() {
       <div>
         {todoList.map((todo) => {
           return (
-            <div key={todo.id}>
+            <div key={"parent" + todo.id}>
+              <input
+                type="checkbox"
+                key={todo.id}
+                onClick={(e) => updateChecked(e, todo.id)}
+              />
               {todo.task} ({todo.completed ? "Done" : "Not done"})
             </div>
           );
@@ -48,7 +72,7 @@ function App() {
           id="taskInput"
           placeholder="Task"
           value={taskInput}
-          onChange={(e) => setTaskInput(e.target.value)}
+          onChange={updateTaskInput}
         />
         <button type="submit">Submit</button>
       </form>
