@@ -18,12 +18,10 @@ const addTask = (task) => {
   `;
   const queryParams = [task.content];
 
-  return pool
-    .query(queryString, queryParams)
-    .catch((error) => {
-      throw new Error(error);
-    });
-}
+  return pool.query(queryString, queryParams).catch((error) => {
+    throw new Error(error);
+  });
+};
 
 const editTask = (id, task) => {
   const queryString = `
@@ -33,13 +31,18 @@ const editTask = (id, task) => {
   `;
   const queryParams = [id, task.content, task.completed];
 
-  return pool
-    .query(queryString, queryParams)
-    .catch((error) => {
-      throw new Error(error);
-    });
-}
+  return pool.query(queryString, queryParams).catch((error) => {
+    throw new Error(error);
+  });
+};
 
-// addTask({content: 'Do laundry'});
-editTask(5, {content: 'Do laundry', completed: true});
-getTasks().then(console.log);
+const removeTask = (id) => {
+  const queryString = `DELETE FROM tasks WHERE id=$1;`;
+  const queryParams = [id];
+
+  return pool.query(queryString, queryParams).catch((error) => {
+    throw new Error(error);
+  });
+};
+
+module.exports = { getTasks, addTask, editTask, removeTask };
