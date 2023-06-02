@@ -1,11 +1,11 @@
-CREATE TABLE tasks (
+CREATE TABLE todos (
   id SERIAL PRIMARY KEY,
-  content TEXT NOT NULL,
+  task TEXT NOT NULL,
   completed BOOLEAN NOT NULL DEFAULT false
 );
 
-INSERT INTO tasks
-(content)
+INSERT INTO todos
+(task)
 VALUES
 ('Set up database'),
 ('Set up queries'),

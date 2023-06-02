@@ -1,7 +1,7 @@
 const pool = require("../modules/pool");
 
-const getTasks = () => {
-  const queryString = "SELECT * FROM tasks;";
+const getTodos = () => {
+  const queryString = "SELECT * FROM todos;";
 
   return pool
     .query(queryString)
@@ -11,33 +11,33 @@ const getTasks = () => {
     });
 };
 
-const addTask = (task) => {
+const addTodo = (todo) => {
   const queryString = `
-    INSERT INTO tasks (content)
+    INSERT INTO todos (task)
     VALUES ($1);
   `;
-  const queryParams = [task.content];
+  const queryParams = [todo.task];
 
   return pool.query(queryString, queryParams).catch((error) => {
     throw new Error(error);
   });
 };
 
-const editTask = (id, task) => {
+const editTodo = (id, todo) => {
   const queryString = `
-    UPDATE tasks
-    SET content = $2, completed = $3
+    UPDATE todos
+    SET task = $2, completed = $3
     WHERE id = $1;
   `;
-  const queryParams = [id, task.content, task.completed];
+  const queryParams = [id, todo.task, todo.completed];
 
   return pool.query(queryString, queryParams).catch((error) => {
     throw new Error(error);
   });
 };
 
-const removeTask = (id) => {
-  const queryString = `DELETE FROM tasks WHERE id=$1;`;
+const removeTodo = (id) => {
+  const queryString = `DELETE FROM todos WHERE id=$1;`;
   const queryParams = [id];
 
   return pool.query(queryString, queryParams).catch((error) => {
@@ -45,4 +45,4 @@ const removeTask = (id) => {
   });
 };
 
-module.exports = { getTasks, addTask, editTask, removeTask };
+module.exports = { getTodos, addTodo, editTodo, removeTodo };
