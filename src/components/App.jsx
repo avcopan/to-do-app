@@ -5,7 +5,7 @@ import {
   addTodo,
   editTodosCompleted,
   removeTodos,
-} from "../../utils/axios";
+} from "../utils/axios";
 
 function App() {
   const [todos, setTodos] = useState([]);
