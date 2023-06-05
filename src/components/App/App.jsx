@@ -34,6 +34,17 @@ function App() {
     }
   };
 
+  const deleteTodos = async (todos) => {
+    try {
+      await Promise.all(
+        [...todos].map((todo) => axios.delete(`/todo/${todo.id}`))
+      );
+      await getTodos().then(setTodos);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   const updateTaskInput = (event) => {
     setTaskInput(event.target.value);
   };
@@ -42,31 +53,14 @@ function App() {
     if (event.target.checked) {
       checkedTodos.add(todo);
       setCheckedTodos(checkedTodos);
-      console.log("Adding item to checked!");
-      console.log(checkedTodos);
     } else {
       checkedTodos.delete(todo);
       setCheckedTodos(checkedTodos);
-      console.log("Removing item from checked!");
-      console.log(checkedTodos);
     }
   };
 
   const markCheckedComplete = () => {
     console.log("Marking checked!");
-  };
-
-  const deleteChecked = async () => {
-    try {
-      for (const todo of checkedTodos) {
-        await axios
-          .delete(`/todo/${todo.id}`)
-          .catch((error) => console.error(error));
-      }
-      await getTodos().then(setTodos);
-    } catch (error) {
-      throw new Error(error);
-    }
   };
 
   return (
@@ -80,7 +74,7 @@ function App() {
               <input
                 type="checkbox"
                 key={todo.id}
-                onClick={(e) => updateChecked(e, todo)}
+                onClick={(event) => updateChecked(event, todo)}
               />
               <span className={todo.completed ? "completedTask" : "task"}>
                 {todo.task}
@@ -90,7 +84,7 @@ function App() {
         })}
       </div>
       <button onClick={markCheckedComplete}>Mark Complete</button>
-      <button onClick={deleteChecked}>Delete</button>
+      <button onClick={() => deleteTodos(checkedTodos)}>Delete</button>
       <h2>Add To Do Item:</h2>
       <form onSubmit={addTodo}>
         <input
