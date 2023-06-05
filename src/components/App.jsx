@@ -12,11 +12,11 @@ function App() {
   const [taskInput, setTaskInput] = useState("");
   let [checkedIds, setCheckedIds] = useState([]);
 
-  useEffect(() => {
+  const updateTodos = () => {
     getTodos().then(setTodos);
-  }, []);
+  };
 
-  const updateChecked = (event, id) => {
+  const updateCheckedIds = (event, id) => {
     if (event.target.checked) {
       checkedIds.push(id);
     } else {
@@ -26,6 +26,25 @@ function App() {
     setCheckedIds(checkedIds);
   };
 
+  /** Check/uncheck all checkboxes
+   * 
+   * @param {*} value 
+   */
+  const toggleCheckboxesAndCheckedIds = (value) => {
+    // First, toggle the checkboxes
+    document
+      .querySelectorAll("input[type=checkbox]")
+      .forEach((element) => (element.checked = value));
+    // Then, update the checkedIds accordingly
+    checkedIds = value ? todos.map(todo => todo.id) : [];
+    console.log("Toggling checkedIds:", checkedIds);
+    setCheckedIds(checkedIds);
+  }
+
+  useEffect(() => {
+    updateTodos();
+  }, []);
+
   return (
     <div>
       <h1>To Do App</h1>
@@ -33,11 +52,12 @@ function App() {
       <div>
         {todos.map((todo) => {
           return (
-            <div key={"parent" + todo.id}>
+            <div key={todo.id}>
               <input
                 type="checkbox"
+                id={todo.id}
                 key={todo.id}
-                onClick={(event) => updateChecked(event, todo.id)}
+                onChange={(event) => updateCheckedIds(event, todo.id)}
               />
               <span className={todo.completed ? "completedTask" : "task"}>
                 {todo.task}
@@ -47,25 +67,24 @@ function App() {
         })}
       </div>
       <button
-        onClick={() => {
-          editTodosCompleted(checkedIds, true).then(getTodos).then(setTodos);
-        }}
+        onClick={() => editTodosCompleted(checkedIds, true).then(updateTodos)}
       >
         Complete
       </button>
       <button
-        onClick={() => {
-          editTodosCompleted(checkedIds, false).then(getTodos).then(setTodos);
-        }}
+        onClick={() => editTodosCompleted(checkedIds, false).then(updateTodos)}
       >
         Incomplete
       </button>
-      <button
-        onClick={() => {
-          removeTodos(checkedIds).then(getTodos).then(setTodos);
-        }}
-      >
+      <button onClick={() => removeTodos(checkedIds).then(updateTodos)}>
         Delete
+      </button>
+      <br />
+      <button onClick={() => toggleCheckboxesAndCheckedIds(true)}>
+        Select All
+      </button>
+      <button onClick={() => toggleCheckboxesAndCheckedIds(false)}>
+        Select None
       </button>
       <h2>Add To Do Item:</h2>
       <form
