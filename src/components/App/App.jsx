@@ -57,24 +57,15 @@ function App() {
   };
 
   const deleteChecked = async () => {
-    const sendDeleteRequestss = async () => {
-      try {
-        for await (const todo of checkedTodos) {
-          axios
-            .delete(`/todo/${todo.id}`)
-            .catch((error) => console.error(error));
-        }
-      } catch (error) {
-        throw new Error(error);
-      }
-    }
-
     try {
-      return sendDeleteRequestss()
-        .then(getTodos)
-        .then(setTodos);
+      for (const todo of checkedTodos) {
+        await axios
+          .delete(`/todo/${todo.id}`)
+          .catch((error) => console.error(error));
+      }
+      await getTodos().then(setTodos);
     } catch (error) {
-      return console.error(error);
+      throw new Error(error);
     }
   };
 
