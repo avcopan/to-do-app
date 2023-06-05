@@ -1,6 +1,7 @@
 const express = require("express");
-const todoRouter = express.Router();
 const todoQuery = require("../queries/todo.query");
+
+const todoRouter = express.Router();
 
 // GET
 /**

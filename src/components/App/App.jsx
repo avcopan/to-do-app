@@ -4,13 +4,12 @@ import "./App.css";
 
 function App() {
   const [todos, setTodos] = useState([]);
-  const [checkedTodos, setCheckedTodos] = useState(new Set());
   const [taskInput, setTaskInput] = useState("");
+  let [checkedIds, setCheckedIds] = useState([]);
 
   useEffect(() => {
     getTodos().then(setTodos);
   }, []);
-  console.log(todos);
 
   const getTodos = async () => {
     try {
@@ -36,9 +35,9 @@ function App() {
 
   const deleteTodos = async (todos) => {
     try {
-      await Promise.all(
-        [...todos].map((todo) => axios.delete(`/todo/${todo.id}`))
-      );
+      const idCsv = checkedIds.join(",");
+      console.log("End point", `/todo?ids=${idCsv}`);
+      await axios.delete(`/todo?ids=${idCsv}`);
       await getTodos().then(setTodos);
     } catch (error) {
       throw new Error(error);
@@ -49,14 +48,14 @@ function App() {
     setTaskInput(event.target.value);
   };
 
-  const updateChecked = (event, todo) => {
-    if (event.target.checked) {
-      checkedTodos.add(todo);
-      setCheckedTodos(checkedTodos);
-    } else {
-      checkedTodos.delete(todo);
-      setCheckedTodos(checkedTodos);
+  const updateChecked = (event, id) => {
+    if (event.target.checked && !checkedIds.includes(id)) {
+      checkedIds.push(id);
+    } else if (!event.target.checked) {
+      checkedIds = checkedIds.filter((i) => i !== id);
     }
+    console.log("Updating checkedIds:", checkedIds);
+    setCheckedIds(checkedIds);
   };
 
   const markCheckedComplete = () => {
@@ -74,7 +73,7 @@ function App() {
               <input
                 type="checkbox"
                 key={todo.id}
-                onClick={(event) => updateChecked(event, todo)}
+                onClick={(event) => updateChecked(event, todo.id)}
               />
               <span className={todo.completed ? "completedTask" : "task"}>
                 {todo.task}
@@ -84,7 +83,7 @@ function App() {
         })}
       </div>
       <button onClick={markCheckedComplete}>Mark Complete</button>
-      <button onClick={() => deleteTodos(checkedTodos)}>Delete</button>
+      <button onClick={() => deleteTodos(checkedIds)}>Delete</button>
       <h2>Add To Do Item:</h2>
       <form onSubmit={addTodo}>
         <input
