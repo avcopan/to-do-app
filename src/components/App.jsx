@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import { TbPencilMinus, TbPencilPlus, TbTrash } from "react-icons/tb";
 import {
   getTodos,
   addTodo,
+  editTodoCompleted,
   editTodosCompleted,
+  removeTodo,
   removeTodos,
 } from "../modules/request";
 
@@ -69,6 +72,16 @@ function App() {
                 onChange={() => toggleCheckBox(todo.id)}
                 checked={checkedBoxes.includes(todo.id)}
               />
+              <TbTrash onClick={() => removeTodo(todo.id, refreshState)} />
+              {todo.completed ? (
+                <TbPencilPlus
+                  onClick={() => editTodoCompleted(todo.id, todo, refreshState)}
+                />
+              ) : (
+                <TbPencilMinus
+                  onClick={() => editTodoCompleted(todo.id, todo, refreshState)}
+                />
+              )}
               <span className={todo.completed ? "completedTask" : "task"}>
                 {todo.task}
               </span>
@@ -78,19 +91,19 @@ function App() {
       </div>
       <button
         onClick={() =>
-          editTodosCompleted(checkedBoxes, true).then(refreshState)
+          editTodosCompleted(checkedBoxes, true, refreshState)
         }
       >
         Complete
       </button>
       <button
         onClick={() =>
-          editTodosCompleted(checkedBoxes, false).then(refreshState)
+          editTodosCompleted(checkedBoxes, false, refreshState)
         }
       >
         Incomplete
       </button>
-      <button onClick={() => removeTodos(checkedBoxes).then(refreshState)}>
+      <button onClick={() => removeTodos(checkedBoxes, refreshState)}>
         Delete
       </button>
       <br />
@@ -100,7 +113,7 @@ function App() {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          addTodo(taskInput).then(refreshState);
+          addTodo(taskInput, refreshState);
           setTaskInput("");
         }}
       >

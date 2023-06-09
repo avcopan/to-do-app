@@ -10,31 +10,55 @@ export const getTodos = async () => {
   }
 };
 
-export const addTodo = async (task) => {
+export const addTodo = async (task, refreshState) => {
   const newTodo = { task: task };
 
   try {
     await axios.post("/todo", newTodo);
+    await refreshState();
   } catch (error) {
     return console.error(error);
   }
 };
 
-export const editTodosCompleted = async (ids, completed) => {
+export const editTodoCompleted = async (id, todo, refreshState) => {
+  try {
+    todo.completed = !todo.completed;
+    await axios.put(`/todo/${id}`, todo);
+    await refreshState();
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export const editTodosCompleted = async (ids, completed, refreshState) => {
   const idCsv = ids.join(",");
 
   try {
     await axios.put(`/todo?ids=${idCsv}&completed=${completed}`);
+    await refreshState();
   } catch (error) {
     throw new Error(error);
   }
 };
 
-export const removeTodos = async (ids) => {
+export const removeTodo = async (id, refreshState) => {
+  console.log("REMOVING TODO!");
+  console.log("id:", id);
+  try {
+    await axios.delete(`/todo/${id}`);
+    await refreshState();
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export const removeTodos = async (ids, refreshState) => {
   const idCsv = ids.join(",");
 
   try {
     await axios.delete(`/todo?ids=${idCsv}`);
+    await refreshState();
   } catch (error) {
     throw new Error(error);
   }
