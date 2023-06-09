@@ -3,8 +3,8 @@ import axios from "axios";
 export const getTodos = async () => {
   try {
     const res = await axios.get("/todo");
-    const todos = res.data;
-    return todos.sort((a, b) => a.id - b.id);
+    const todos = res.data.sort((a, b) => a.id - b.id);
+    return todos;
   } catch (error) {
     return console.error(error);
   }
