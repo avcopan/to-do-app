@@ -5,34 +5,52 @@ import {
   addTodo,
   editTodosCompleted,
   removeTodos,
-} from "../api/agent";
+} from "../modules/request";
 
 function App() {
+  // This will store the to do list
   const [todos, setTodos] = useState([]);
+  // This will store checked boxes by ID
+  const [checkedBoxes, setCheckedBoxes] = useState([]);
+  // This will store the input for adding a new task
   const [taskInput, setTaskInput] = useState("");
-  const [checkedIds, setCheckedIds] = useState([]);
 
+  /** Toggle the state of an individual checkbox
+   *
+   * @param {number} todoId - The ID of the todo item whose box will be checked
+   */
+  const toggleCheckBox = (todoId) => {
+    if (checkedBoxes.includes(todoId)) {
+      // Uncheck this box
+      setCheckedBoxes(checkedBoxes.filter((id) => id !== todoId));
+    } else {
+      // Check this box
+      setCheckedBoxes([...checkedBoxes, todoId]);
+    }
+  };
+
+  /** Toggle the state of all checkboxes
+   *
+   * @param {boolean} check - Whether to check or uncheck the boxes
+   */
+  const toggleCheckBoxes = (check = false) => {
+    if (check) {
+      // Check all boxes
+      setCheckedBoxes(todos.map((todo) => todo.id));
+    } else {
+      // Uncheck all boxes
+      setCheckedBoxes([]);
+    }
+  };
+
+  /** Refresh the state of the to do list and the check boxes
+   */
   const refreshState = () => {
     getTodos().then(setTodos);
-    toggleCheckedIds(false);
+    toggleCheckBoxes(false);
   };
 
-  const toggleCheckedIds = (check = false) => {
-    if (check) {
-      setCheckedIds(todos.map((todo) => todo.id));
-    } else {
-      setCheckedIds([]);
-    }
-  };
-
-  const toggleCheckedId = (todoId) => {
-    if (checkedIds.includes(todoId)) {
-      setCheckedIds(checkedIds.filter((id) => id !== todoId));
-    } else {
-      setCheckedIds([...checkedIds, todoId]);
-    }
-  };
-
+  // Make sure we refresh the state upon page load/reload
   useEffect(() => {
     refreshState();
   }, []);
@@ -48,8 +66,8 @@ function App() {
               <input
                 type="checkbox"
                 key={todo.id}
-                onChange={() => toggleCheckedId(todo.id)}
-                checked={checkedIds.includes(todo.id)}
+                onChange={() => toggleCheckBox(todo.id)}
+                checked={checkedBoxes.includes(todo.id)}
               />
               <span className={todo.completed ? "completedTask" : "task"}>
                 {todo.task}
@@ -59,21 +77,25 @@ function App() {
         })}
       </div>
       <button
-        onClick={() => editTodosCompleted(checkedIds, true).then(refreshState)}
+        onClick={() =>
+          editTodosCompleted(checkedBoxes, true).then(refreshState)
+        }
       >
         Complete
       </button>
       <button
-        onClick={() => editTodosCompleted(checkedIds, false).then(refreshState)}
+        onClick={() =>
+          editTodosCompleted(checkedBoxes, false).then(refreshState)
+        }
       >
         Incomplete
       </button>
-      <button onClick={() => removeTodos(checkedIds).then(refreshState)}>
+      <button onClick={() => removeTodos(checkedBoxes).then(refreshState)}>
         Delete
       </button>
       <br />
-      <button onClick={() => toggleCheckedIds(true)}>Select All</button>
-      <button onClick={() => toggleCheckedIds(false)}>Select None</button>
+      <button onClick={() => toggleCheckBoxes(true)}>Select All</button>
+      <button onClick={() => toggleCheckBoxes(false)}>Select None</button>
       <h2>Add To Do Item:</h2>
       <form
         onSubmit={(event) => {
