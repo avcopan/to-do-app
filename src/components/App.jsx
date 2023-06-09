@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import { TbPencilMinus, TbPencilPlus, TbTrash } from "react-icons/tb";
 import {
+  MdOutlineCheckBoxOutlineBlank,
+  MdOutlineCheckBox,
+  MdOutlineIndeterminateCheckBox,
+} from "react-icons/md";
+import {
   getTodos,
   addTodo,
   editTodoCompleted,
@@ -17,6 +22,8 @@ function App() {
   const [checkedBoxes, setCheckedBoxes] = useState([]);
   // This will store the input for adding a new task
   const [taskInput, setTaskInput] = useState("");
+  // This will store the id of the item currently being hovered over
+  const [hoverId, setHoverId] = useState();
 
   /** Toggle the state of an individual checkbox
    *
@@ -63,43 +70,66 @@ function App() {
       <h1>To Do App</h1>
       <h2>To Do List:</h2>
       <div>
+        {checkedBoxes.length === 0 ? (
+          <MdOutlineCheckBoxOutlineBlank
+            onClick={() => toggleCheckBoxes(true)}
+          />
+        ) : checkedBoxes.length === todos.length ? (
+          <MdOutlineCheckBox onClick={() => toggleCheckBoxes(false)} />
+        ) : (
+          <MdOutlineIndeterminateCheckBox
+            onClick={() => toggleCheckBoxes(false)}
+          />
+        )}
+        <TbTrash />
+        <TbPencilMinus />
+        <TbPencilPlus />
         {todos.map((todo) => {
           return (
-            <div key={todo.id}>
+            <div
+              key={todo.id}
+              onMouseEnter={() => setHoverId(todo.id)}
+              onMouseLeave={() => setHoverId()}
+            >
               <input
                 type="checkbox"
                 key={todo.id}
                 onChange={() => toggleCheckBox(todo.id)}
                 checked={checkedBoxes.includes(todo.id)}
               />
-              <TbTrash onClick={() => removeTodo(todo.id, refreshState)} />
-              {todo.completed ? (
-                <TbPencilPlus
-                  onClick={() => editTodoCompleted(todo.id, todo, refreshState)}
-                />
-              ) : (
-                <TbPencilMinus
-                  onClick={() => editTodoCompleted(todo.id, todo, refreshState)}
-                />
-              )}
               <span className={todo.completed ? "completedTask" : "task"}>
                 {todo.task}
               </span>
+              {hoverId === todo.id && (
+                <>
+                  {todo.completed ? (
+                    <TbPencilPlus
+                      onClick={() =>
+                        editTodoCompleted(todo.id, todo, refreshState)
+                      }
+                    />
+                  ) : (
+                    <TbPencilMinus
+                      onClick={() =>
+                        editTodoCompleted(todo.id, todo, refreshState)
+                      }
+                    />
+                  )}
+
+                  <TbTrash onClick={() => removeTodo(todo.id, refreshState)} />
+                </>
+              )}
             </div>
           );
         })}
       </div>
       <button
-        onClick={() =>
-          editTodosCompleted(checkedBoxes, true, refreshState)
-        }
+        onClick={() => editTodosCompleted(checkedBoxes, true, refreshState)}
       >
         Complete
       </button>
       <button
-        onClick={() =>
-          editTodosCompleted(checkedBoxes, false, refreshState)
-        }
+        onClick={() => editTodosCompleted(checkedBoxes, false, refreshState)}
       >
         Incomplete
       </button>
@@ -107,8 +137,6 @@ function App() {
         Delete
       </button>
       <br />
-      <button onClick={() => toggleCheckBoxes(true)}>Select All</button>
-      <button onClick={() => toggleCheckBoxes(false)}>Select None</button>
       <h2>Add To Do Item:</h2>
       <form
         onSubmit={(event) => {
