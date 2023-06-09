@@ -10,13 +10,11 @@ import {
 function App() {
   const [todos, setTodos] = useState([]);
   const [taskInput, setTaskInput] = useState("");
-  let [checkedIds, setCheckedIds] = useState([]);
+  const [checkedIds, setCheckedIds] = useState([]);
 
-  const refreshState = (check = false) => {
-    // Update the list of todos and set the state accordingly;
+  const refreshState = () => {
     getTodos().then(setTodos);
-    // Update the checkeIds, either checking or unchecking everything
-    toggleCheckedIds(check);
+    toggleCheckedIds(false);
   };
 
   const toggleCheckedIds = (check = false) => {
@@ -27,14 +25,12 @@ function App() {
     }
   };
 
-  const updateCheckedIds = (todoId) => {
+  const toggleCheckedId = (todoId) => {
     if (checkedIds.includes(todoId)) {
-      checkedIds = checkedIds.filter((id) => id !== todoId);
+      setCheckedIds(checkedIds.filter((id) => id !== todoId));
     } else {
-      checkedIds = [...checkedIds, todoId];
+      setCheckedIds([...checkedIds, todoId]);
     }
-    setCheckedIds(checkedIds);
-    console.log(checkedIds);
   };
 
   useEffect(() => {
@@ -52,7 +48,7 @@ function App() {
               <input
                 type="checkbox"
                 key={todo.id}
-                onChange={() => updateCheckedIds(todo.id)}
+                onChange={() => toggleCheckedId(todo.id)}
                 checked={checkedIds.includes(todo.id)}
               />
               <span className={todo.completed ? "completedTask" : "task"}>
