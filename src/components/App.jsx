@@ -81,9 +81,15 @@ function App() {
             onClick={() => toggleCheckBoxes(false)}
           />
         )}
-        <TbTrash />
-        <TbPencilMinus />
-        <TbPencilPlus />
+        <TbPencilMinus
+        onClick={() => editTodosCompleted(checkedBoxes, true, refreshState)}
+         />
+        <TbPencilPlus
+        onClick={() => editTodosCompleted(checkedBoxes, false, refreshState)}
+         />
+        <TbTrash
+       onClick={() => removeTodos(checkedBoxes, refreshState)}
+         />
         {todos.map((todo) => {
           return (
             <div
@@ -123,19 +129,12 @@ function App() {
           );
         })}
       </div>
-      <button
-        onClick={() => editTodosCompleted(checkedBoxes, true, refreshState)}
-      >
-        Complete
-      </button>
-      <button
-        onClick={() => editTodosCompleted(checkedBoxes, false, refreshState)}
-      >
-        Incomplete
-      </button>
-      <button onClick={() => removeTodos(checkedBoxes, refreshState)}>
-        Delete
-      </button>
+      <div>
+        Key:
+        <TbPencilMinus/> = mark completed;
+        <TbPencilPlus/> = mark uncompleted;
+        <TbTrash /> = delete;
+      </div>
       <br />
       <h2>Add To Do Item:</h2>
       <form
