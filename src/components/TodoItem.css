@@ -1,0 +1,22 @@
+.todoItem {
+  display: flex;
+  align-items: flex-start;
+  max-width: 50rem;
+}
+
+.hide {
+  opacity: 0.1;
+}
+
+.completed {
+  text-decoration: line-through;
+  opacity: 0.2;
+}
+
+.task {
+  width: 90%;
+}
+
+.alignBottom {
+  align-self: flex-end;
+}

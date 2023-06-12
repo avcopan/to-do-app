@@ -2,6 +2,7 @@ import { useState } from "react";
 import { TbTrash } from "react-icons/tb";
 import { MdFormatStrikethrough, MdSettingsBackupRestore } from "react-icons/md";
 import { editTodoCompleted, removeTodo } from "../modules/request";
+import "./TodoItem.css";
 
 export function TodoItem({
   todo,
@@ -31,6 +32,7 @@ export function TodoItem({
       key={todo.id}
       onMouseEnter={() => setHoverId(todo.id)}
       onMouseLeave={() => setHoverId()}
+      className="todoItem"
     >
       <input
         type="checkbox"
@@ -38,24 +40,25 @@ export function TodoItem({
         onChange={() => toggleCheckBox(todo.id)}
         checked={checkedBoxes.includes(todo.id)}
       />
-      <span className={todo.completed ? "completedTask" : "task"}>
+      {todo.completed ? (
+        <MdSettingsBackupRestore
+          onClick={() => editTodoCompleted(todo.id, todo, refreshState)}
+          className={todo.id != hoverId && "hide"}
+        />
+      ) : (
+        <MdFormatStrikethrough
+          onClick={() => editTodoCompleted(todo.id, todo, refreshState)}
+          className={todo.id != hoverId && "hide"}
+        />
+      )}
+
+      <span className={`task ${!todo.completed && 'completed'}`}>
         {todo.task}
       </span>
-      {hoverId === todo.id && (
-        <>
-          {todo.completed ? (
-            <MdSettingsBackupRestore
-              onClick={() => editTodoCompleted(todo.id, todo, refreshState)}
-            />
-          ) : (
-            <MdFormatStrikethrough
-              onClick={() => editTodoCompleted(todo.id, todo, refreshState)}
-            />
-          )}
-
-          <TbTrash onClick={() => removeTodo(todo.id, refreshState)} />
-        </>
-      )}
+      <TbTrash
+        onClick={() => removeTodo(todo.id, refreshState)}
+        className={`alignBottom ${todo.id != hoverId && "hide"}`}
+      />
     </div>
   );
 }
