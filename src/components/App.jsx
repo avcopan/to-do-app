@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getTodos } from "../modules/request";
 import { TodoList } from "./TodoList";
 import { TaskForm } from "./TaskForm";
+import { IconKey } from "./IconKey";
 import "./App.css";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         setCheckedBoxes={setCheckedBoxes}
         refreshState={refreshState}
       />
+      <IconKey />
       <TaskForm refreshState={refreshState} />
     </div>
   );
