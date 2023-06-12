@@ -1,0 +1,7 @@
+.iconTable {
+  display: flex;
+}
+
+.iconColumn {
+  margin-right: 1rem;
+}

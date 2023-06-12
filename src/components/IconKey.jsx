@@ -6,34 +6,33 @@ import {
   MdFormatStrikethrough,
   MdSettingsBackupRestore,
 } from "react-icons/md";
+import "./IconKey.css";
 
 export function IconKey() {
   return (
     <>
       <h4>Icons</h4>
-      <div>
-        <div>
+      <div className="iconTable">
+        <div className="iconColumn">
           <div>
-            <MdFormatStrikethrough /> = mark complete
+            <MdFormatStrikethrough /> mark complete
           </div>
           <div>
-            <MdSettingsBackupRestore /> = mark incomplete
+            <MdSettingsBackupRestore /> mark incomplete
           </div>
           <div>
-            <TbTrash /> = remove
+            <TbTrash /> remove
           </div>
         </div>
-        <div>
+        <div className="iconColumn">
           <div>
-            <MdOutlineCheckBoxOutlineBlank /> = none selected (click to select
-            all)
+            <MdOutlineCheckBoxOutlineBlank /> none selected (select all)
           </div>
           <div>
-            <MdOutlineCheckBox /> = all selected (click to select none)
+            <MdOutlineCheckBox /> all selected (select none)
           </div>
           <div>
-            <MdOutlineIndeterminateCheckBox /> = some selected (click to select
-            none)
+            <MdOutlineIndeterminateCheckBox /> some selected (select none)
           </div>
         </div>
       </div>
