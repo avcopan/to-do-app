@@ -19,17 +19,21 @@ export function SelectorBox({ todos, checkedBoxes, setCheckedBoxes }) {
     }
   };
 
-  return (
-    <>
-      {checkedBoxes.length === 0 ? (
-        <MdOutlineCheckBoxOutlineBlank onClick={() => toggleCheckBoxes(true)} />
-      ) : checkedBoxes.length === todos.length ? (
-        <MdOutlineCheckBox onClick={() => toggleCheckBoxes(false)} />
-      ) : (
-        <MdOutlineIndeterminateCheckBox
-          onClick={() => toggleCheckBoxes(false)}
-        />
-      )}
-    </>
-  );
+  if (checkedBoxes.length === 0) {
+    // If no boxes are checked, use an empty checkbox icon with an onClick to
+    // select all
+    return (
+      <MdOutlineCheckBoxOutlineBlank onClick={() => toggleCheckBoxes(true)} />
+    );
+  } else if (checkedBoxes.length === todos.length) {
+    // If all boxes are checked, use a checked checkbox icon with an onClick to
+    // select none
+    return <MdOutlineCheckBox onClick={() => toggleCheckBoxes(false)} />;
+  } else {
+    // If some boxes are checked, use an indeterminate checkbox icon with an
+    // onClick to select none
+    return (
+      <MdOutlineIndeterminateCheckBox onClick={() => toggleCheckBoxes(false)} />
+    );
+  }
 }
