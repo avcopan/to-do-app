@@ -3,9 +3,7 @@ import axios from "axios";
 export const getTodos = async () => {
   try {
     const res = await axios.get("/todo");
-    const todos = res.data
-      .sort((a, b) => a.id - b.id)
-      .sort((a, b) => Number(a.completed) - Number(b.completed));
+    const todos = res.data.sort((a, b) => a.id - b.id);
     return todos;
   } catch (error) {
     return console.error(error);
