@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getTodos } from "../modules/request";
+import { Header } from "./Header";
 import { TodoList } from "./TodoList";
 import { TaskForm } from "./TaskForm";
 import { IconKey } from "./IconKey";
@@ -25,15 +26,21 @@ function App() {
 
   return (
     <div>
-      <h1>todo list</h1>
-      <TodoList
-        todos={todos}
-        checkedBoxes={checkedBoxes}
-        setCheckedBoxes={setCheckedBoxes}
-        refreshState={refreshState}
-      />
-      <IconKey />
-      <TaskForm refreshState={refreshState} />
+      <header className="addMargin todoHeader">
+        <Header title="todo list" />
+        <TaskForm refreshState={refreshState} />
+      </header>
+      <main className="addMargin">
+        <TodoList
+          todos={todos}
+          checkedBoxes={checkedBoxes}
+          setCheckedBoxes={setCheckedBoxes}
+          refreshState={refreshState}
+        />
+      </main>
+      <footer className="addMargin">
+        <IconKey />
+      </footer>
     </div>
   );
 }

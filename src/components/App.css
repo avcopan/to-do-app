@@ -1,0 +1,8 @@
+.todoHeader {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.addMargin {
+  margin: 1rem;
+}

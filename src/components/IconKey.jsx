@@ -4,7 +4,7 @@ import "./IconKey.css";
 export function IconKey() {
   return (
     <div className="iconKey">
-      <div>icons:</div>
+      <div className="iconKeyHeader">icons:</div>
       <div className="iconTable">
         <div className="iconColumn">
           <div>

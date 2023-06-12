@@ -6,26 +6,23 @@ export function TaskForm({ refreshState }) {
   const [taskInput, setTaskInput] = useState("");
 
   return (
-    <>
-      <h2>Add Task:</h2>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          addTodo(taskInput, refreshState);
-          setTaskInput("");
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        addTodo(taskInput, refreshState);
+        setTaskInput("");
+      }}
+    >
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="Task"
+        value={taskInput}
+        onChange={(event) => {
+          setTaskInput(event.target.value);
         }}
-      >
-        <input
-          type="text"
-          id="taskInput"
-          placeholder="Task"
-          value={taskInput}
-          onChange={(event) => {
-            setTaskInput(event.target.value);
-          }}
-        />
-        <button type="submit">Submit</button>
-      </form>
-    </>
+      />
+      <button type="submit">Add Task</button>
+    </form>
   );
 }

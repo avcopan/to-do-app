@@ -1,10 +1,15 @@
 .iconKey {
   display: inline-flex;
-  flex-direction: column;
-  margin: 1rem;
+  flex-flow: row wrap;
+  align-items: center;
   padding: 10px;
   border: 1px solid;
   border-radius: 1rem;
+}
+
+.iconKeyHeader {
+  font-weight: bold;
+  margin-right: 1rem;
 }
 
 .iconTable {
