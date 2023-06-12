@@ -1,12 +1,18 @@
 import axios from "axios";
 
+const handleError = (error) => {
+  alert(error);
+  console.error(error);
+  return error;
+}
+
 export const getTodos = async () => {
   try {
     const res = await axios.get("/todo");
     const todos = res.data.sort((a, b) => a.id - b.id);
     return todos;
   } catch (error) {
-    return console.error(error);
+    return handleError(error);
   }
 };
 
@@ -17,7 +23,7 @@ export const addTodo = async (task, refreshState) => {
     await axios.post("/todo", newTodo);
     await refreshState();
   } catch (error) {
-    return console.error(error);
+    return handleError(error);
   }
 };
 
@@ -27,7 +33,7 @@ export const editTodoCompleted = async (id, todo, refreshState) => {
     await axios.put(`/todo/${id}`, todo);
     await refreshState();
   } catch (error) {
-    throw new Error(error);
+    return handleError(error);
   }
 };
 
@@ -38,7 +44,7 @@ export const editTodosCompleted = async (ids, completed, refreshState) => {
     await axios.put(`/todo?ids=${idCsv}&completed=${completed}`);
     await refreshState();
   } catch (error) {
-    throw new Error(error);
+    return handleError(error);
   }
 };
 
@@ -49,7 +55,7 @@ export const removeTodo = async (id, refreshState) => {
     await axios.delete(`/todo/${id}`);
     await refreshState();
   } catch (error) {
-    throw new Error(error);
+    return handleError(error);
   }
 };
 
@@ -60,6 +66,6 @@ export const removeTodos = async (ids, refreshState) => {
     await axios.delete(`/todo?ids=${idCsv}`);
     await refreshState();
   } catch (error) {
-    throw new Error(error);
+    return handleError(error);
   }
 };
