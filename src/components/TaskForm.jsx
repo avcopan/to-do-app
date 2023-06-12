@@ -1,36 +1,38 @@
 import { useState } from "react";
 import { addTodo } from "../modules/request";
+import { Icon } from "./Icon";
 import "./TaskForm.css";
 
 export function TaskForm({ refreshState }) {
   // This will store the input for adding a new task
   const [taskInput, setTaskInput] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = () => {
     addTodo(taskInput, refreshState);
     setTaskInput("");
   };
 
   const submitOnEnter = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
-      handleSubmit(event);
+      event.preventDefault();
+      handleSubmit();
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="taskForm">
+    <div className="taskForm">
       <textarea
-        placeholder="Describe the next task"
+        placeholder="Enter a new task"
         value={taskInput}
         onChange={(event) => {
           setTaskInput(event.target.value);
         }}
         onKeyDown={submitOnEnter}
       />
-      <button type="submit" title="add task">
-        +
-      </button>
-    </form>
+      <Icon.Add
+        onClick={handleSubmit}
+        className="taskFormButton"
+       />
+    </div>
   );
 }

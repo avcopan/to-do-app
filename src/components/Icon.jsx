@@ -1,4 +1,4 @@
-import { TbTrash } from "react-icons/tb";
+import { TbTrash, TbSquareRoundedPlusFilled } from "react-icons/tb";
 import {
   MdOutlineCheckBoxOutlineBlank,
   MdOutlineCheckBox,
@@ -32,6 +32,16 @@ export function Remove({ onClick, className }) {
   return (
     <TbTrash
       title={onClick && "remove"}
+      className={`${className} ${onClick && "clickable"}`}
+      onClick={onClick}
+    />
+  );
+}
+
+export function Add({ onClick, className }) {
+  return (
+    <TbSquareRoundedPlusFilled
+      title={onClick && "add task"}
       className={`${className} ${onClick && "clickable"}`}
       onClick={onClick}
     />
@@ -72,6 +82,7 @@ export const Icon = {
   MarkComplete,
   MarkIncomplete,
   Remove,
+  Add,
   NoneSelected,
   AllSelected,
   SomeSelected,

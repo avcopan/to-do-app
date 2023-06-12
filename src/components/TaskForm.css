@@ -16,14 +16,10 @@
   box-sizing: border-box;
 }
 
-.taskForm button {
-  all: unset;
+.taskFormButton {
   position: absolute;
   bottom: 5px;
   right: 5px;
-  padding: 0px 5px 2px 5px;
-  font-weight: bold;
-  color: #f9f4f9;
-  background-color: #351735;
-  border-radius: 5px;
+  color: #351735;
+  font-size: 1.5rem;
 }
