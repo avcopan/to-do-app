@@ -1,5 +1,14 @@
+.iconKey {
+  display: inline-flex;
+  flex-direction: column;
+  margin: 1rem;
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 1rem;
+}
+
 .iconTable {
-  display: flex;
+  display: inline-flex;
 }
 
 .iconColumn {

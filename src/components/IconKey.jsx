@@ -10,8 +10,8 @@ import "./IconKey.css";
 
 export function IconKey() {
   return (
-    <>
-      <h4>Icons</h4>
+    <div className="iconKey">
+      <div>icons:</div>
       <div className="iconTable">
         <div className="iconColumn">
           <div>
@@ -36,6 +36,6 @@ export function IconKey() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
