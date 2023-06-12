@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { TbPencilMinus, TbPencilPlus, TbTrash } from "react-icons/tb";
+import { TbTrash } from "react-icons/tb";
 import {
   MdOutlineCheckBoxOutlineBlank,
   MdOutlineCheckBox,
   MdOutlineIndeterminateCheckBox,
+  MdFormatStrikethrough,
+  MdSettingsBackupRestore,
 } from "react-icons/md";
 import {
   getTodos,
@@ -81,15 +83,13 @@ function App() {
             onClick={() => toggleCheckBoxes(false)}
           />
         )}
-        <TbPencilMinus
-        onClick={() => editTodosCompleted(checkedBoxes, true, refreshState)}
-         />
-        <TbPencilPlus
-        onClick={() => editTodosCompleted(checkedBoxes, false, refreshState)}
-         />
-        <TbTrash
-       onClick={() => removeTodos(checkedBoxes, refreshState)}
-         />
+        <MdFormatStrikethrough
+          onClick={() => editTodosCompleted(checkedBoxes, true, refreshState)}
+        />
+        <MdSettingsBackupRestore
+          onClick={() => editTodosCompleted(checkedBoxes, false, refreshState)}
+        />
+        <TbTrash onClick={() => removeTodos(checkedBoxes, refreshState)} />
         {todos.map((todo) => {
           return (
             <div
@@ -109,13 +109,13 @@ function App() {
               {hoverId === todo.id && (
                 <>
                   {todo.completed ? (
-                    <TbPencilPlus
+                    <MdSettingsBackupRestore
                       onClick={() =>
                         editTodoCompleted(todo.id, todo, refreshState)
                       }
                     />
                   ) : (
-                    <TbPencilMinus
+                    <MdFormatStrikethrough
                       onClick={() =>
                         editTodoCompleted(todo.id, todo, refreshState)
                       }
@@ -129,12 +129,11 @@ function App() {
           );
         })}
       </div>
-      <div>
-        Key:
-        <TbPencilMinus/> = mark completed;
-        <TbPencilPlus/> = mark uncompleted;
-        <TbTrash /> = delete;
-      </div>
+      <p>
+        <MdFormatStrikethrough /> = mark complete;
+        <MdSettingsBackupRestore /> = mark incomplete;
+        <TbTrash /> = remove
+      </p>
       <br />
       <h2>Add To Do Item:</h2>
       <form
