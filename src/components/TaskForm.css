@@ -1,0 +1,29 @@
+.taskForm {
+  flex-grow: 2;
+  max-width: 25rem;
+  position: relative;
+  margin-left: 1rem;
+  padding: 5px;
+  background-color: #f9f4f9;
+  border: 1px solid #351735;
+  border-radius: 5px;
+}
+
+.taskForm textarea {
+  all: unset;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.taskForm button {
+  all: unset;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  padding: 0px 5px 2px 5px;
+  font-weight: bold;
+  color: #f9f4f9;
+  background-color: #351735;
+  border-radius: 5px;
+}
