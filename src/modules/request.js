@@ -3,7 +3,9 @@ import axios from "axios";
 export const getTodos = async () => {
   try {
     const res = await axios.get("/todo");
-    const todos = res.data.sort((a, b) => a.id - b.id);
+    const todos = res.data
+      .sort((a, b) => a.id - b.id)
+      .sort((a, b) => Number(a.completed) - Number(b.completed));
     return todos;
   } catch (error) {
     return console.error(error);
@@ -29,7 +31,7 @@ export const editTodoCompleted = async (id, todo, refreshState) => {
   } catch (error) {
     throw new Error(error);
   }
-}
+};
 
 export const editTodosCompleted = async (ids, completed, refreshState) => {
   const idCsv = ids.join(",");
@@ -51,7 +53,7 @@ export const removeTodo = async (id, refreshState) => {
   } catch (error) {
     throw new Error(error);
   }
-}
+};
 
 export const removeTodos = async (ids, refreshState) => {
   const idCsv = ids.join(",");
