@@ -52,7 +52,7 @@ export function TodoItem({
         />
       )}
 
-      <span className={`task ${!todo.completed && 'completed'}`}>
+      <span className={`task ${todo.completed && 'completed'}`}>
         {todo.task}
       </span>
       <TbTrash

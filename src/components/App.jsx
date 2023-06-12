@@ -25,7 +25,7 @@ function App() {
 
   return (
     <div>
-      <h1>Todo App</h1>
+      <h1>Todo List</h1>
       <TodoList
         todos={todos}
         checkedBoxes={checkedBoxes}
