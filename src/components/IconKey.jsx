@@ -1,11 +1,4 @@
-import { TbTrash } from "react-icons/tb";
-import {
-  MdOutlineCheckBoxOutlineBlank,
-  MdOutlineCheckBox,
-  MdOutlineIndeterminateCheckBox,
-  MdFormatStrikethrough,
-  MdSettingsBackupRestore,
-} from "react-icons/md";
+import { Icon } from "./Icon";
 import "./IconKey.css";
 
 export function IconKey() {
@@ -15,24 +8,24 @@ export function IconKey() {
       <div className="iconTable">
         <div className="iconColumn">
           <div>
-            <MdFormatStrikethrough /> mark complete
+            <Icon.MarkComplete clickable={false} /> mark complete
           </div>
           <div>
-            <MdSettingsBackupRestore /> mark incomplete
+            <Icon.MarkIncomplete clickable={false} /> mark incomplete
           </div>
           <div>
-            <TbTrash /> remove
+            <Icon.Remove clickable={false} /> remove
           </div>
         </div>
         <div className="iconColumn">
           <div>
-            <MdOutlineCheckBoxOutlineBlank /> none selected (select all)
+            <Icon.NoneSelected clickable={false} /> none selected (select all)
           </div>
           <div>
-            <MdOutlineCheckBox /> all selected (select none)
+            <Icon.AllSelected clickable={false} /> all selected (select none)
           </div>
           <div>
-            <MdOutlineIndeterminateCheckBox /> some selected (select none)
+            <Icon.SomeSelected clickable={false} /> some selected (select none)
           </div>
         </div>
       </div>

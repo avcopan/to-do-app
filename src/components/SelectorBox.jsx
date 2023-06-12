@@ -1,9 +1,5 @@
-import {
-  MdOutlineCheckBoxOutlineBlank,
-  MdOutlineCheckBox,
-  MdOutlineIndeterminateCheckBox,
-} from "react-icons/md";
-import './SelectorBox.css';
+import { Icon } from "./Icon";
+import "./SelectorBox.css";
 
 export function SelectorBox({ todos, checkedBoxes, setCheckedBoxes }) {
   /** Toggle the state of all checkboxes
@@ -24,7 +20,7 @@ export function SelectorBox({ todos, checkedBoxes, setCheckedBoxes }) {
     // If no boxes are checked, use an empty checkbox icon with an onClick to
     // select all
     return (
-      <MdOutlineCheckBoxOutlineBlank
+      <Icon.NoneSelected
         onClick={() => toggleCheckBoxes(true)}
         className="imitateCheckbox"
       />
@@ -33,7 +29,7 @@ export function SelectorBox({ todos, checkedBoxes, setCheckedBoxes }) {
     // If all boxes are checked, use a checked checkbox icon with an onClick to
     // select none
     return (
-      <MdOutlineCheckBox
+      <Icon.AllSelected
         onClick={() => toggleCheckBoxes(false)}
         className="imitateCheckbox"
       />
@@ -42,7 +38,7 @@ export function SelectorBox({ todos, checkedBoxes, setCheckedBoxes }) {
     // If some boxes are checked, use an indeterminate checkbox icon with an
     // onClick to select none
     return (
-      <MdOutlineIndeterminateCheckBox
+      <Icon.SomeSelected
         onClick={() => toggleCheckBoxes(false)}
         className="imitateCheckbox"
       />

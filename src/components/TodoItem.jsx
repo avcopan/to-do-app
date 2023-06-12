@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { TbTrash } from "react-icons/tb";
-import { MdFormatStrikethrough, MdSettingsBackupRestore } from "react-icons/md";
 import { editTodoCompleted, removeTodo } from "../modules/request";
+import { Icon } from "./Icon";
 import "./TodoItem.css";
 
 export function TodoItem({
@@ -41,21 +40,21 @@ export function TodoItem({
         checked={checkedBoxes.includes(todo.id)}
       />
       {todo.completed ? (
-        <MdSettingsBackupRestore
+        <Icon.MarkIncomplete
           onClick={() => editTodoCompleted(todo.id, todo, refreshState)}
           className={todo.id != hoverId && "hide"}
         />
       ) : (
-        <MdFormatStrikethrough
+        <Icon.MarkComplete
           onClick={() => editTodoCompleted(todo.id, todo, refreshState)}
           className={todo.id != hoverId && "hide"}
         />
       )}
 
-      <span className={`task ${todo.completed && 'completed'}`}>
+      <span className={`task ${todo.completed && "completed"}`}>
         {todo.task}
       </span>
-      <TbTrash
+      <Icon.Remove
         onClick={() => removeTodo(todo.id, refreshState)}
         className={`alignBottom ${todo.id != hoverId && "hide"}`}
       />

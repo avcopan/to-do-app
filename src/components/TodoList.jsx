@@ -1,8 +1,7 @@
-import { TbTrash } from "react-icons/tb";
-import { MdFormatStrikethrough, MdSettingsBackupRestore } from "react-icons/md";
 import { editTodosCompleted, removeTodos } from "../modules/request";
-import { TodoItem } from "./TodoItem";
 import { SelectorBox } from "./SelectorBox";
+import { TodoItem } from "./TodoItem";
+import { Icon } from "./Icon";
 
 export function TodoList({
   todos,
@@ -17,13 +16,15 @@ export function TodoList({
         checkedBoxes={checkedBoxes}
         setCheckedBoxes={setCheckedBoxes}
       />
-      <MdFormatStrikethrough
+      <Icon.MarkComplete
         onClick={() => editTodosCompleted(checkedBoxes, true, refreshState)}
       />
-      <MdSettingsBackupRestore
+      <Icon.MarkIncomplete
         onClick={() => editTodosCompleted(checkedBoxes, false, refreshState)}
       />
-      <TbTrash onClick={() => removeTodos(checkedBoxes, refreshState)} />
+      <Icon.Remove
+        onClick={() => removeTodos(checkedBoxes, refreshState)}
+      />
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}
