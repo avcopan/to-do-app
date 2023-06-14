@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { editTodoCompleted, removeTodo } from "../modules/request";
 import { Icon } from "./Icon";
+import { purple } from "@mui/material/colors";
+import Checkbox from "@mui/material/Checkbox";
 import "./TodoItem.css";
 
 export function TodoItem({
@@ -33,11 +35,11 @@ export function TodoItem({
       onMouseLeave={() => setHoverId()}
       className="todoItem"
     >
-      <input
-        type="checkbox"
-        key={todo.id}
+      <Checkbox
         onChange={() => toggleCheckBox(todo.id)}
         checked={checkedBoxes.includes(todo.id)}
+        size="smaller"
+        sx={{ px: 0.3, py: 0.4, "&.Mui-checked": { color: "secondary" } }}
       />
       {todo.completed ? (
         <Icon.MarkIncomplete
